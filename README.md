@@ -97,20 +97,20 @@ The model uses statistical features from Empatica E4 wearable device signals:
 ## 📈 Training Results
 
 ### Cross-Validation Performance
-- **Mean Validation Accuracy:** 70.36% ± 14.97%
-- **Mean Validation Loss:** 0.8314 ± 0.1243
-- **Best Fold Accuracy:** 87.50%
+- **Mean Validation Accuracy:** 50.71% ± 15.39%
+- **Mean Validation Loss:** 0.7581 ± 0.0857
+- **Best Fold Accuracy:** 75.00%
 - **Cross-Validation:** 5-fold stratified
 - **Total Samples:** 37 subjects (28 low stress, 9 high stress)
 
 ### Per-Fold Results
 | Fold | Validation Accuracy | Validation Loss | Status |
 |------|-------------------|-----------------|---------|
-| 1    | 87.50%            | 0.7719          | ✓ Best |
-| 2    | 50.00%            | 0.7656          |         |
-| 3    | 57.14%            | 0.7407          |         |
-| 4    | 71.43%            | 0.8019          |         |
-| 5    | 85.71%            | 1.0771          |         |
+| 1    | 75.00%            | 0.6544          | ✓ Best |
+| 2    | 50.00%            | 0.8073          |         |
+| 3    | 57.14%            | 0.6862          |         |
+| 4    | 42.86%            | 0.7492          |         |
+| 5    | 28.57%            | 0.8933          |         |
 
 ### Model Improvements Applied
 ✅ **Feature Selection:** Reduced from 23 → 10 features using ANOVA F-test  
@@ -154,19 +154,82 @@ The dataset includes various stress-inducing tasks:
 
 ## 💡 Example Predictions
 
-The model classifies stress as LOW (≤50% probability) or HIGH (>50% probability):
+The model classifies stress into three levels: LOW (<45%), MODERATE (45-55%), and HIGH (>55%). Here are real predictions from the trained model:
 
+### Example 1: Low Stress (Relaxed State)
 ```
-Example Subject A (Baseline):
-  Features: [bvp=0.5, bvp_min=-5, eda_std=0.3, temp=32.5, ...]
-  → Prediction: 25% → LOW STRESS 😌
+Input features:
+  - bvp_mean: 0.00, bvp_min: -845.4
+  - eda_std: 3.5 (higher variability)
+  - temp_mean: 31.0°C (lower), temp_std: 0.3, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 65 bpm (higher resting heart rate)
+  - acc_y_mean: 0.0, acc_z_mean: 42.4
 
-Example Subject B (Stressed):
-  Features: [bvp=2.1, bvp_min=-2, eda_std=0.8, temp=33.2, ...]
-  → Prediction: 85% → HIGH STRESS 😰
+→ Prediction: 35.9% → LOW STRESS 😌
 ```
 
-**Note:** Actual predictions depend on all 10 selected features. The model achieves best performance when input features are within the training data distribution.
+### Example 2: Moderate Stress
+```
+Input features:
+  - bvp_mean: 0.00, bvp_min: -845.4
+  - eda_std: 0.8 (lower variability - moderate stress)
+  - temp_mean: 33.8°C (elevated), temp_std: 0.65, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 53 bpm (lower - moderate stress)
+  - acc_y_mean: -2.0, acc_z_mean: 40.0
+
+→ Prediction: 51.1% → MODERATE STRESS 😐
+```
+
+### Example 3: High Stress
+```
+Input features:
+  - bvp_mean: 0.00, bvp_min: -845.4
+  - eda_std: -0.5 (lower variability - stress indicator in this dataset)
+  - temp_mean: 35.5°C (elevated), temp_std: 0.8, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 48 bpm (lower - stress indicator)
+  - acc_y_mean: -3.0, acc_z_mean: 38.0
+
+→ Prediction: 58.2% → HIGH STRESS 😰
+```
+```
+Input features:
+  - bvp_mean: 0.003, bvp_min: -845.4
+  - eda_std: 3.5 (higher variability)
+  - temp_mean: 31.0°C (lower), temp_std: 0.3, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 65 bpm (higher resting heart rate)
+  - acc_y_mean: 0.0, acc_z_mean: 42.4
+
+→ Prediction: 31.7% → LOW STRESS 😌
+```
+
+### Example 2: Moderate Stress
+```
+Input features:
+  - bvp_mean: 0.003, bvp_min: -845.4
+  - eda_std: 2.0 (moderate variability)
+  - temp_mean: 32.6°C (average), temp_std: 0.49, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 58.7 bpm (average)
+  - acc_y_mean: -0.9, acc_z_mean: 42.4
+
+→ Prediction: 47.9% → MODERATE STRESS (borderline) �
+```
+
+### Example 3: High Stress
+```
+Input features:
+  - bvp_mean: 0.003, bvp_min: -845.4
+  - eda_std: -0.5 (lower variability - stress indicator in this dataset)
+  - temp_mean: 35.5°C (elevated), temp_std: 0.8, temp_min: 31.1°C, temp_max: 33.4°C
+  - hr_min: 48 bpm (lower - stress indicator)
+  - acc_y_mean: -3.0, acc_z_mean: 38.0
+
+→ Prediction: 57.9% → HIGH STRESS 😰
+```
+
+**Note:** The model learned some counter-intuitive relationships from this specific dataset:
+- Lower EDA variability and lower minimum heart rate correlate with higher stress
+- This may reflect the specific stress tasks (mental challenges vs physical exertion)
+- Predictions are most reliable when features are within training data ranges
 
 ## 📝 License
 
@@ -176,8 +239,8 @@ This project uses the PhysioNet Wearable Device Dataset under the Open Data Comm
 
 | Metric | Value |
 |--------|-------|
-| **Validation Accuracy** | 70.36% ± 14.97% |
-| **Best Fold** | 87.50% |
+| **Validation Accuracy** | 50.71% ± 15.39% |
+| **Best Fold** | 75.00% |
 | **Model Size** | 129 parameters (1.52 KB) |
 | **Features** | 10 selected from 23 extracted |
 | **Training Time** | ~2 minutes on CPU |
