@@ -122,12 +122,27 @@ The model uses statistical features from Empatica E4 wearable device signals:
 ## 🔧 Technical Details
 
 **Training Techniques:**
-- Data augmentation: 3x samples with ±5% Gaussian noise
-- Class weight balancing: Addresses 28:9 imbalance (low:high stress)
-- L2 regularization: Prevents overfitting (lambda=0.01)
-- Dropout layers: 30% and 20% rates
-- Early stopping: Patience of 20 epochs
-- Learning rate reduction: Halves LR when validation loss plateaus
+- **Feature Selection:** SelectKBest with ANOVA F-statistic (top 10 features)
+- **Data Augmentation:** 2x samples with ±3% Gaussian noise
+- **Class Weight Balancing:** Addresses 28:9 imbalance (weights: 0.66 stress, 2.06 baseline)
+- **L2 Regularization:** Aggressive lambda=0.05 to prevent overfitting
+- **Dropout:** 50% rate for strong regularization
+- **Early Stopping:** Patience of 15-20 epochs
+- **Cross-Validation:** Stratified 5-fold for robust evaluation
+- **Optimizer:** Adam with learning rate 0.001
+- **Batch Size:** 8 (small batches for small dataset)
+
+**Selected Features (Top 10):**
+1. `bvp_mean` - Blood volume pulse average
+2. `bvp_min` - Minimum BVP value
+3. `eda_std` - Electrodermal activity variability
+4. `temp_mean` - Average skin temperature
+5. `temp_std` - Temperature variability
+6. `temp_min` - Minimum temperature
+7. `temp_max` - Maximum temperature
+8. `hr_min` - Minimum heart rate
+9. `acc_y_mean` - Y-axis acceleration
+10. `acc_z_mean` - Z-axis acceleration
 
 **Stress Protocol:**
 The dataset includes various stress-inducing tasks:
@@ -137,6 +152,46 @@ The dataset includes various stress-inducing tasks:
 - Countdown subtraction tasks
 - Rest periods with relaxing videos
 
-## 📝 Dataset
+## 💡 Example Predictions
+
+The model classifies stress as LOW (≤50% probability) or HIGH (>50% probability):
+
+```
+Example Subject A (Baseline):
+  Features: [bvp=0.5, bvp_min=-5, eda_std=0.3, temp=32.5, ...]
+  → Prediction: 25% → LOW STRESS 😌
+
+Example Subject B (Stressed):
+  Features: [bvp=2.1, bvp_min=-2, eda_std=0.8, temp=33.2, ...]
+  → Prediction: 85% → HIGH STRESS 😰
+```
+
+**Note:** Actual predictions depend on all 10 selected features. The model achieves best performance when input features are within the training data distribution.
+
+## 📝 License
 
 This project uses the PhysioNet Wearable Device Dataset under the Open Data Commons Attribution License v1.0.
+
+## 🎯 Model Performance Summary
+
+| Metric | Value |
+|--------|-------|
+| **Validation Accuracy** | 70.36% ± 14.97% |
+| **Best Fold** | 87.50% |
+| **Model Size** | 129 parameters (1.52 KB) |
+| **Features** | 10 selected from 23 extracted |
+| **Training Time** | ~2 minutes on CPU |
+| **Subjects** | 37 (28 baseline, 9 stressed) |
+
+**Key Strengths:**
+- ✅ Robust cross-validation evaluation
+- ✅ Very lightweight model (only 129 parameters)
+- ✅ Automatic feature selection
+- ✅ Class-balanced training
+- ✅ Strong regularization prevents overfitting
+
+**Limitations:**
+- ⚠️ Small dataset (37 subjects)
+- ⚠️ Class imbalance (76% baseline, 24% stressed)
+- ⚠️ High variance across folds (50-87% accuracy range)
+- ⚠️ Performance may vary with new subjects
