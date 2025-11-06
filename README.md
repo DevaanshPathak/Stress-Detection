@@ -139,21 +139,21 @@ The model uses 15 features selected via ANOVA F-statistic, which provided the be
 - **Batch Size:** 8 (small batches for small dataset)
 
 **Selected Features (15 total):**
-1. `bvp_mean`
-2. `bvp_min`
-3. `bvp_max`
-4. `bvp_range`
-5. `eda_std`
-6. `temp_mean`
-7. `temp_std`
-8. `temp_min`
-9. `temp_max`
-10. `hr_std`
-11. `hr_min`
-12. `acc_x_mean`
-13. `acc_y_mean`
-14. `acc_z_mean`
-15. `acc_magnitude_std`
+1. `bvp_mean` - Blood Volume Pulse Mean
+2. `bvp_min` - Blood Volume Pulse Minimum
+3. `bvp_max` - Blood Volume Pulse Maximum
+4. `bvp_range` - Blood Volume Pulse Range
+5. `eda_std` - Electrodermal Activity Standard Deviation
+6. `temp_mean` - Skin Temperature Mean
+7. `temp_std` - Skin Temperature Standard Deviation
+8. `temp_min` - Skin Temperature Minimum
+9. `temp_max` - Skin Temperature Maximum
+10. `hr_std` - Heart Rate Standard Deviation
+11. `hr_min` - Heart Rate Minimum
+12. `acc_x_mean` - Accelerometer X-axis Mean
+13. `acc_y_mean` - Accelerometer Y-axis Mean
+14. `acc_z_mean` - Accelerometer Z-axis Mean
+15. `acc_magnitude_std` - Accelerometer Magnitude Standard Deviation
 
 **Stress Protocol:**
 The dataset includes various stress-inducing tasks:
