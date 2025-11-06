@@ -8,11 +8,13 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Load model and preprocessors
+print("Loading model artifacts...")
 model = keras.models.load_model('stress_model.h5')
 with open('scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 with open('feature_selector.pkl', 'rb') as f:
     feature_selector = pickle.load(f)
+print("✓ Model, scaler, and feature selector loaded successfully")
 
 def predict(features, label):
     """Make prediction and display result"""

@@ -162,8 +162,8 @@ print("\n[3/5] Feature Selection...")
 X = df_features.values
 y = y_binary
 
-# Select best K features using ANOVA F-statistic
-n_features = min(10, X.shape[1])  # Select top 10 features (or fewer if less available)
+# Select best 15 features using ANOVA F-statistic
+n_features = 15
 selector = SelectKBest(f_classif, k=n_features)
 selector.fit(X, y)
 
@@ -189,8 +189,8 @@ with open('scaler.pkl', 'wb') as f:
     pickle.dump(scaler, f)
 with open('feature_selector.pkl', 'wb') as f:
     pickle.dump(selector, f)
-print("Scaler saved: scaler.pkl")
-print("Feature selector saved: feature_selector.pkl")
+print(f"Scaler saved: scaler.pkl")
+print(f"Feature selector saved: feature_selector.pkl")
 
 # Calculate class weights
 class_weights = class_weight.compute_class_weight(

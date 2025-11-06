@@ -16,18 +16,19 @@ print("=" * 70)
 
 # Load model and scaler
 print("\nLoading trained model...")
+
 try:
     model = keras.models.load_model('stress_model.h5')
-    print("✓ Model loaded successfully!")
+    print(f"✓ Model loaded successfully")
 except Exception as e:
     print(f"❌ Error loading model: {e}")
-    print("Please run train_wearable.py first to train the model.")
+    print("Please run train_wearable.py to train the model first.")
     exit(1)
 
 try:
     with open('scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
-    print("✓ Scaler loaded successfully!")
+    print(f"✓ Scaler loaded successfully")
 except Exception as e:
     print(f"❌ Error loading scaler: {e}")
     exit(1)
@@ -35,7 +36,7 @@ except Exception as e:
 try:
     with open('feature_selector.pkl', 'rb') as f:
         feature_selector = pickle.load(f)
-    print("✓ Feature selector loaded successfully!")
+    print(f"✓ Feature selector loaded successfully")
     selected_indices = feature_selector.get_support()
     n_selected = sum(selected_indices)
     print(f"Model uses {n_selected} selected features")
@@ -102,12 +103,16 @@ def predict_stress(features):
     # Predict
     prediction = model.predict(features_scaled, verbose=0)[0][0]
     probability = prediction * 100
-    
-    # Classify
-    if probability < 50:
+
+    # Classify into three levels for user clarity
+    if probability < 45:
         classification = "LOW"
         emoji = "😌"
         message = "You're in a relaxed state"
+    elif probability <= 55:
+        classification = "MODERATE"
+        emoji = "😐"
+        message = "Borderline stress — consider a short break"
     else:
         classification = "HIGH"
         emoji = "😰"
