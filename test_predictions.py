@@ -47,84 +47,84 @@ print("="*70)
 # Example 1: LOW STRESS - Based on actual model training data
 # Lower temperature, higher HR_MIN values predict lower stress
 low_stress_features = [
-    0.00,     # BVP mean (typical)
-    5.0,      # BVP std
-    -845.4,   # BVP min (typical from training)
-    5.0,      # BVP max
-    5.0,      # BVP range
-    2.0,      # EDA mean
-    3.5,      # EDA std (higher value → lower stress in this model)
-    0.5,      # EDA min
-    0.5,      # EDA max
-    0.5,      # EDA range
-    31.0,     # TEMP mean (lower → lower stress)
-    0.3,      # TEMP std (lower)
-    31.1,     # TEMP min (typical)
-    33.4,     # TEMP max
-    75,       # HR mean
-    10,       # HR std
-    65.0,     # HR min (higher → lower stress in this model)
-    10,       # HR max
-    0.0,      # ACC x mean
-    0.0,      # ACC y mean
-    42.4,     # ACC z mean (typical)
-    0.0,      # ACC magnitude mean
-    0.3       # ACC magnitude std
+    0.00,     # bvp_mean - Blood Volume Pulse Mean
+    5.0,      # bvp_std - Blood Volume Pulse Standard Deviation
+    -845.4,   # bvp_min - Blood Volume Pulse Minimum (typical from training)
+    5.0,      # bvp_max - Blood Volume Pulse Maximum
+    5.0,      # bvp_range - Blood Volume Pulse Range
+    2.0,      # eda_mean - Electrodermal Activity Mean
+    3.5,      # eda_std - Electrodermal Activity Standard Deviation (higher value → lower stress in this model)
+    0.5,      # eda_min - Electrodermal Activity Minimum
+    0.5,      # eda_max - Electrodermal Activity Maximum
+    0.5,      # eda_range - Electrodermal Activity Range
+    31.0,     # temp_mean - Skin Temperature Mean (lower → lower stress)
+    0.3,      # temp_std - Skin Temperature Standard Deviation (lower)
+    31.1,     # temp_min - Skin Temperature Minimum (typical)
+    33.4,     # temp_max - Skin Temperature Maximum
+    75,       # hr_mean - Heart Rate Mean
+    10,       # hr_std - Heart Rate Standard Deviation
+    65.0,     # hr_min - Heart Rate Minimum (higher → lower stress in this model)
+    10,       # hr_max - Heart Rate Maximum
+    0.0,      # acc_x_mean - Accelerometer X-axis Mean
+    0.0,      # acc_y_mean - Accelerometer Y-axis Mean
+    42.4,     # acc_z_mean - Accelerometer Z-axis Mean (typical)
+    0.0,      # acc_magnitude_mean - Accelerometer Magnitude Mean
+    0.3       # acc_magnitude_std - Accelerometer Magnitude Standard Deviation
 ]
 
 # Example 2: MODERATE STRESS - Mid-range values
 moderate_stress_features = [
-    0.00,     # BVP mean
-    5.0,      # BVP std
-    -845.4,   # BVP min (typical)
-    5.0,      # BVP max
-    5.0,      # BVP range
-    2.0,      # EDA mean
-    0.8,      # EDA std (lower → more stress)
-    0.5,      # EDA min
-    0.5,      # EDA max
-    0.5,      # EDA range
-    33.8,     # TEMP mean (elevated → more stress)
-    0.65,     # TEMP std (elevated)
-    31.1,     # TEMP min (typical)
-    33.4,     # TEMP max
-    75,       # HR mean
-    10,       # HR std
-    53.0,     # HR min (lower → more stress)
-    10,       # HR max
-    0.0,      # ACC x mean
-    -2.0,     # ACC y mean
-    40.0,     # ACC z mean (lower)
-    0.0,      # ACC magnitude mean
-    0.3       # ACC magnitude std
+    0.00,     # bvp_mean - Blood Volume Pulse Mean
+    5.0,      # bvp_std - Blood Volume Pulse Standard Deviation
+    -845.4,   # bvp_min - Blood Volume Pulse Minimum (typical)
+    5.0,      # bvp_max - Blood Volume Pulse Maximum
+    5.0,      # bvp_range - Blood Volume Pulse Range
+    2.0,      # eda_mean - Electrodermal Activity Mean
+    0.8,      # eda_std - Electrodermal Activity Standard Deviation (lower → more stress)
+    0.5,      # eda_min - Electrodermal Activity Minimum
+    0.5,      # eda_max - Electrodermal Activity Maximum
+    0.5,      # eda_range - Electrodermal Activity Range
+    33.8,     # temp_mean - Skin Temperature Mean (elevated → more stress)
+    0.65,     # temp_std - Skin Temperature Standard Deviation (elevated)
+    31.1,     # temp_min - Skin Temperature Minimum (typical)
+    33.4,     # temp_max - Skin Temperature Maximum
+    75,       # hr_mean - Heart Rate Mean
+    10,       # hr_std - Heart Rate Standard Deviation
+    53.0,     # hr_min - Heart Rate Minimum (lower → more stress)
+    10,       # hr_max - Heart Rate Maximum
+    0.0,      # acc_x_mean - Accelerometer X-axis Mean
+    -2.0,     # acc_y_mean - Accelerometer Y-axis Mean
+    40.0,     # acc_z_mean - Accelerometer Z-axis Mean (lower)
+    0.0,      # acc_magnitude_mean - Accelerometer Magnitude Mean
+    0.3       # acc_magnitude_std - Accelerometer Magnitude Standard Deviation
 ]
 
 # Example 3: HIGH STRESS - Based on actual model behavior
 # Higher temperature, lower HR_MIN, lower EDA_STD predict higher stress
 high_stress_features = [
-    0.00,     # BVP mean
-    5.0,      # BVP std
-    -845.4,   # BVP min (typical)
-    5.0,      # BVP max
-    5.0,      # BVP range
-    2.0,      # EDA mean
-    -0.5,     # EDA std (lower value → higher stress in this model)
-    0.5,      # EDA min
-    0.5,      # EDA max
-    0.5,      # EDA range
-    35.5,     # TEMP mean (higher → higher stress)
-    0.8,      # TEMP std (higher)
-    31.1,     # TEMP min (typical)
-    33.4,     # TEMP max
-    75,       # HR mean
-    10,       # HR std
-    48.0,     # HR min (lower → higher stress in this model)
-    10,       # HR max
-    0.0,      # ACC x mean
-    -3.0,     # ACC y mean
-    38.0,     # ACC z mean (lower)
-    0.0,      # ACC magnitude mean
-    0.3       # ACC magnitude std
+    0.00,     # bvp_mean - Blood Volume Pulse Mean
+    5.0,      # bvp_std - Blood Volume Pulse Standard Deviation
+    -845.4,   # bvp_min - Blood Volume Pulse Minimum (typical)
+    5.0,      # bvp_max - Blood Volume Pulse Maximum
+    5.0,      # bvp_range - Blood Volume Pulse Range
+    2.0,      # eda_mean - Electrodermal Activity Mean
+    -0.5,     # eda_std - Electrodermal Activity Standard Deviation (lower value → higher stress in this model)
+    0.5,      # eda_min - Electrodermal Activity Minimum
+    0.5,      # eda_max - Electrodermal Activity Maximum
+    0.5,      # eda_range - Electrodermal Activity Range
+    35.5,     # temp_mean - Skin Temperature Mean (higher → higher stress)
+    0.8,      # temp_std - Skin Temperature Standard Deviation (higher)
+    31.1,     # temp_min - Skin Temperature Minimum (typical)
+    33.4,     # temp_max - Skin Temperature Maximum
+    75,       # hr_mean - Heart Rate Mean
+    10,       # hr_std - Heart Rate Standard Deviation
+    48.0,     # hr_min - Heart Rate Minimum (lower → higher stress in this model)
+    10,       # hr_max - Heart Rate Maximum
+    0.0,      # acc_x_mean - Accelerometer X-axis Mean
+    -3.0,     # acc_y_mean - Accelerometer Y-axis Mean
+    38.0,     # acc_z_mean - Accelerometer Z-axis Mean (lower)
+    0.0,      # acc_magnitude_mean - Accelerometer Magnitude Mean
+    0.3       # acc_magnitude_std - Accelerometer Magnitude Standard Deviation
 ]
 
 # Run predictions
